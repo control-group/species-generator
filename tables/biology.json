@@ -1,0 +1,70 @@
+{
+  "name": "Species Biology Archetypes",
+  "description": "Core biological forms for species generation",
+  "entries": [
+    {
+      "key": "humanoid",
+      "name": "Humanoid",
+      "weight": 3,
+      "description": "Bipedal, roughly human proportions",
+      "traits": ["opposable_thumbs", "upright_posture", "bilateral_symmetry"],
+      "common_variants": ["tall", "short", "robust", "gracile"]
+    },
+    {
+      "key": "avian",
+      "name": "Avian-derived",
+      "weight": 2,
+      "description": "Bird-like characteristics, may retain flight capability",
+      "traits": ["hollow_bones", "keen_eyesight", "territorial"],
+      "common_variants": ["raptor", "songbird", "seabird", "flightless"]
+    },
+    {
+      "key": "reptilian",
+      "name": "Reptilian",
+      "weight": 2,
+      "description": "Cold-blooded, scaled, often patient and calculating",
+      "traits": ["ectothermic", "scaled_hide", "patient_predator"],
+      "common_variants": ["serpentine", "lizard", "turtle", "crocodilian"]
+    },
+    {
+      "key": "insectoid",
+      "name": "Insectoid",
+      "weight": 1,
+      "description": "Arthropod characteristics, often hive-minded",
+      "traits": ["chitinous_exoskeleton", "compound_eyes", "hive_instincts"],
+      "common_variants": ["ant", "bee", "beetle", "mantis"]
+    },
+    {
+      "key": "aquatic",
+      "name": "Aquatic-adapted",
+      "weight": 1,
+      "description": "Water-world origins, specialized for aquatic life",
+      "traits": ["water_breathing", "pressure_resistant", "streamlined"],
+      "common_variants": ["fish", "cephalopod", "cetacean", "amphibian"]
+    },
+    {
+      "key": "energy",
+      "name": "Energy-based",
+      "weight": 0.5,
+      "description": "Partially or wholly composed of organized energy",
+      "traits": ["energy_manipulation", "phase_shifting", "electromagnetic"],
+      "common_variants": ["plasma", "photonic", "quantum", "electromagnetic"]
+    },
+    {
+      "key": "synthetic",
+      "name": "Synthetic",
+      "weight": 1,
+      "description": "Artificially created, mechanical or bio-mechanical",
+      "traits": ["manufactured", "modular_design", "artificial_intelligence"],
+      "common_variants": ["android", "cyborg", "drone", "hybrid"]
+    },
+    {
+      "key": "hybrid",
+      "name": "Hybrid",
+      "weight": 1,
+      "description": "Combination of multiple biological types",
+      "traits": ["adaptive", "versatile", "unpredictable"],
+      "common_variants": ["bio_mechanical", "multi_species", "engineered", "evolved"]
+    }
+  ]
+}

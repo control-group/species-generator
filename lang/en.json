@@ -1,0 +1,38 @@
+{
+  "species-generator": {
+    "settings": {
+      "generationSpeed": {
+        "name": "Default Generation Speed",
+        "hint": "Choose between fast basic profiles or detailed comprehensive profiles"
+      },
+      "defaultRole": {
+        "name": "Default Narrative Role", 
+        "hint": "The default role assumption for generated species"
+      },
+      "autoExportToJournal": {
+        "name": "Auto-Export to Journal",
+        "hint": "Automatically create journal entries for generated species"
+      },
+      "enableChatCommands": {
+        "name": "Enable Chat Commands",
+        "hint": "Allow species generation via chat commands like /species"
+      }
+    },
+    "ui": {
+      "generateSpecies": "Generate Species",
+      "quickGenerate": "Quick Generate",
+      "detailedGenerate": "Detailed Generate",
+      "viewStats": "View Statistics",
+      "exportToJournal": "Export to Journal",
+      "generateAnother": "Generate Another",
+      "close": "Close"
+    },
+    "notifications": {
+      "generating": "Generating species...",
+      "generationComplete": "Species generation complete!",
+      "generationFailed": "Failed to generate species",
+      "exportedToJournal": "Species exported to journal",
+      "exportFailed": "Failed to export to journal"
+    }
+  }
+}

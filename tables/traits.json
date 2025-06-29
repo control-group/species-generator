@@ -1,0 +1,84 @@
+{
+  "name": "Physical and Behavioral Traits",
+  "description": "Specific characteristics organized by archetype",
+  "humanoid": [
+    "Distinctive facial tattoos or markings",
+    "Unusual eye colors (metallic, prismatic, etc.)",
+    "Extra or fewer digits",
+    "Pronounced physical dimorphism",
+    "Distinctive hair texture or growth patterns",
+    "Unusual skin tones or textures",
+    "Modified vocal cords for unique speech",
+    "Enlarged or reduced craniums"
+  ],
+  "avian": [
+    "Decorative feathered crests or displays",
+    "Perching feet with strong talons",
+    "Vocal resonance pouches",
+    "Iridescent plumage patterns",
+    "Hollow bone structure (lightweight)",
+    "Keen distance vision",
+    "Ritualistic preening behaviors",
+    "Seasonal plumage changes"
+  ],
+  "reptilian": [
+    "Chromatophore color-changing ability",
+    "Protective scale patterns",
+    "Nictitating membranes over eyes",
+    "Heat-sensing organs",
+    "Periodic shedding cycles",
+    "Forked tongues for chemical detection",
+    "Egg-laying reproduction",
+    "Temperature-dependent behavior patterns"
+  ],
+  "insectoid": [
+    "Compound eyes with multifaceted vision",
+    "Chitinous exoskeleton with decorative patterns",
+    "Pheromone-based communication",
+    "Collective decision-making processes",
+    "Specialized caste roles",
+    "Mandibles for manipulation",
+    "Four or six limb configurations",
+    "Metamorphic life stages"
+  ],
+  "aquatic": [
+    "Bioluminescent communication patterns",
+    "Echolocation capabilities",
+    "Pressure-adapted physiology",
+    "Streamlined body forms",
+    "Tentacle manipulation appendages",
+    "Water-filtering respiratory systems",
+    "Electrical field sensitivity",
+    "Camouflage abilities"
+  ],
+  "energy": [
+    "Visible energy field emanations",
+    "Phase-shifting between states",
+    "Electromagnetic manipulation",
+    "Photonic communication",
+    "Matter-energy conversion",
+    "Quantum consciousness links",
+    "Temporal perception differences",
+    "Reality-warping influences"
+  ],
+  "synthetic": [
+    "Modular component designs",
+    "Self-repair capabilities",
+    "Data port interfaces",
+    "Holographic projectors",
+    "Sensor array clusters",
+    "Adaptive programming",
+    "Power cell dependencies",
+    "Network consciousness sharing"
+  ],
+  "hybrid": [
+    "Mixed biological features",
+    "Technological augmentations",
+    "Adaptive evolutionary traits",
+    "Symbiotic relationships",
+    "Genetic instability markers",
+    "Environmental adaptations",
+    "Hybrid vigor advantages",
+    "Identity confusion struggles"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Narrative Hooks",
+  "description": "Story connection points organized by theme",
+  "political": [
+    "Their homeworld was recently occupied by UC forces",
+    "They serve as neutral mediators in galactic conflicts",
+    "A faction seeks to exploit their unique abilities",
+    "They hold ancient territorial claims to disputed space",
+    "Their government is infiltrated by unknown agents",
+    "They're refugees from a failed colony project"
+  ],
+  "mysterious": [
+    "They possess knowledge of pre-collapse civilizations",
+    "Strange signals emanate from their space",
+    "They appear in historical records but deny it",
+    "Their technology seems impossible given their status",
+    "They're searching for something lost in the void",
+    "They can predict certain galactic events"
+  ],
+  "personal": [
+    "One of their number has gone missing",
+    "They're being hunted by an unknown enemy",
+    "A member seeks redemption for past actions",
+    "They owe a significant debt to the party",
+    "Their cultural traditions are being corrupted",
+    "They're the last of their specific bloodline"
+  ],
+  "resource": [
+    "Their world contains a unique strategic resource",
+    "They control a critical trade route",
+    "Their technology could revolutionize spaceflight",
+    "They know the location of a lost fleet",
+    "Their artifacts contain valuable data",
+    "They breed creatures valuable to other species"
+  ],
+  "temporal": [
+    "They're from a different time period entirely",
+    "Their homeworld experiences time differently",
+    "They're aging at an abnormal rate",
+    "They've been in stasis for centuries",
+    "They're caught in a temporal loop",
+    "They can see probable futures"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "name": "Galactic Status",
+  "description": "Position within the Known Galaxy's political structure",
+  "entries": [
+    {
+      "key": "uc_core",
+      "name": "UC Core Member",
+      "weight": 1,
+      "description": "Full member of the Unified Colonies with all privileges",
+      "political_power": "high",
+      "resources": "abundant",
+      "technology": "cutting_edge",
+      "story_implications": ["diplomatic_immunity", "resource_access", "political_intrigue"]
+    },
+    {
+      "key": "uc_adjacent",
+      "name": "UC Adjacent",
+      "weight": 2,
+      "description": "Allied with or dependent on the UC, but not full members",
+      "political_power": "moderate",
+      "resources": "stable",
+      "technology": "modern",
+      "story_implications": ["complex_loyalties", "trade_dependencies", "cultural_tension"]
+    },
+    {
+      "key": "independent",
+      "name": "Independent Systems",
+      "weight": 2,
+      "description": "Maintain neutrality and self-governance",
+      "political_power": "variable",
+      "resources": "self_sufficient",
+      "technology": "mixed",
+      "story_implications": ["diplomatic_flexibility", "resource_struggles", "isolation"]
+    },
+    {
+      "key": "rogue",
+      "name": "Rogue Elements",
+      "weight": 1,
+      "description": "Actively opposed to major galactic powers",
+      "political_power": "low",
+      "resources": "scarce",
+      "technology": "improvised",
+      "story_implications": ["guerrilla_tactics", "hidden_bases", "desperate_measures"]
+    },
+    {
+      "key": "extinct",
+      "name": "Extinct/Remnant",
+      "weight": 0.5,
+      "description": "Survivors of destroyed civilizations",
+      "political_power": "none",
+      "resources": "precious_artifacts",
+      "technology": "lost_knowledge",
+      "story_implications": ["mysterious_past", "ancient_secrets", "tragic_history"]
+    },
+    {
+      "key": "emerging",
+      "name": "Emerging Power",
+      "weight": 1,
+      "description": "Recently achieved spaceflight or galactic contact",
+      "political_power": "growing",
+      "resources": "untapped",
+      "technology": "developing",
+      "story_implications": ["naive_optimism", "rapid_change", "exploitation_risk"]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "Species Naming Patterns",
+  "description": "Phonetic patterns for generating species names",
+  "patterns": {
+    "humanoid": {
+      "prefixes": ["Ter", "Stel", "Vega", "Cen", "Arc", "Neo", "Sol", "Luna"],
+      "suffixes": ["rans", "lans", "nids", "ites", "ians", "ese", "oni", "athi"]
+    },
+    "avian": {
+      "prefixes": ["Aer", "Pter", "Av", "Vel", "Cir", "Fal", "Aqu", "Str"],
+      "suffixes": ["raptors", "wings", "taur", "nids", "ians", "oni", "ites", "ese"]
+    },
+    "reptilian": {
+      "prefixes": ["Ser", "Drac", "Sau", "Liz", "Vip", "Cob", "Pyt", "Asp"],
+      "suffixes": ["pentes", "auros", "ians", "ites", "oni", "nids", "ese", "athi"]
+    },
+    "insectoid": {
+      "prefixes": ["Myr", "Hiv", "Cept", "Mant", "Form", "Ter", "Hym", "Col"],
+      "suffixes": ["optera", "mids", "nids", "ants", "ites", "ians", "oni", "ese"]
+    },
+    "aquatic": {
+      "prefixes": ["Aqu", "Cet", "Phin", "Octo", "Naut", "Mer", "Thal", "Hydra"],
+      "suffixes": ["nids", "pods", "ians", "ites", "oni", "ese", "athi", "morphs"]
+    },
+    "energy": {
+      "prefixes": ["Lum", "Plas", "Phot", "Quan", "Flux", "Rad", "Ion", "Spec"],
+      "suffixes": ["beings", "forms", "ians", "ites", "oni", "ese", "athi", "nids"]
+    },
+    "synthetic": {
+      "prefixes": ["Mech", "Cyb", "Auto", "Syn", "Tech", "Digi", "Bio", "Meta"],
+      "suffixes": ["noids", "forms", "ians", "ites", "oni", "ese", "athi", "units"]
+    },
+    "hybrid": {
+      "prefixes": ["Xen", "Chim", "Mut", "Var", "Poly", "Multi", "Trans", "Evo"],
+      "suffixes": ["morphs", "variants", "ians", "ites", "oni", "ese", "athi", "nids"]
+    },
+    "default": {
+      "prefixes": ["Zeph", "Nyx", "Kai", "Lux", "Vox", "Rex", "Pax", "Flux"],
+      "suffixes": ["ians", "ites", "oni", "ese", "athi", "nids", "ans", "ors"]
+    }
+  }
+}

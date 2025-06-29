@@ -1,0 +1,76 @@
+{
+  "name": "Cultural Frameworks",
+  "description": "Social and cultural structures for species",
+  "entries": [
+    {
+      "key": "nomadic",
+      "name": "Nomadic Traders",
+      "weight": 2,
+      "description": "Constantly moving, following trade routes and resources",
+      "values": ["freedom", "adaptability", "networking"],
+      "structure": "clan_based",
+      "interaction_style": "friendly_but_wary",
+      "common_roles": ["trader", "courier", "smuggler", "guide"]
+    },
+    {
+      "key": "corporate",
+      "name": "Corporate Hierarchy",
+      "weight": 2,
+      "description": "Organized around business efficiency and profit",
+      "values": ["efficiency", "profit", "advancement"],
+      "structure": "strict_hierarchy",
+      "interaction_style": "professional_and_calculating",
+      "common_roles": ["executive", "engineer", "accountant", "security"]
+    },
+    {
+      "key": "tribal",
+      "name": "Tribal Confederation",
+      "weight": 2,
+      "description": "Traditional structures based on kinship and territory",
+      "values": ["honor", "tradition", "community"],
+      "structure": "elder_council",
+      "interaction_style": "formal_protocols",
+      "common_roles": ["warrior", "shaman", "hunter", "storyteller"]
+    },
+    {
+      "key": "academic",
+      "name": "Academic Collective",
+      "weight": 1,
+      "description": "Dedicated to knowledge, research, and discovery",
+      "values": ["knowledge", "truth", "progress"],
+      "structure": "merit_based",
+      "interaction_style": "curious_and_analytical",
+      "common_roles": ["researcher", "archivist", "theorist", "explorer"]
+    },
+    {
+      "key": "militant",
+      "name": "Militant Order",
+      "weight": 1,
+      "description": "Organized around conflict, discipline, and strength",
+      "values": ["strength", "discipline", "victory"],
+      "structure": "military_ranks",
+      "interaction_style": "direct_and_aggressive",
+      "common_roles": ["soldier", "commander", "strategist", "enforcer"]
+    },
+    {
+      "key": "mystic",
+      "name": "Mystic Circles",
+      "weight": 1,
+      "description": "Focused on spiritual and metaphysical pursuits",
+      "values": ["enlightenment", "balance", "transcendence"],
+      "structure": "initiatory_orders",
+      "interaction_style": "cryptic_and_philosophical",
+      "common_roles": ["oracle", "healer", "guardian", "seeker"]
+    },
+    {
+      "key": "anarchist",
+      "name": "Anarchist Collective",
+      "weight": 0.5,
+      "description": "Rejection of formal authority, radical independence",
+      "values": ["freedom", "individualism", "rebellion"],
+      "structure": "voluntary_cooperation",
+      "interaction_style": "suspicious_of_authority",
+      "common_roles": ["rebel", "artist", "hacker", "revolutionary"]
+    }
+  ]
+}

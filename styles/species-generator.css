@@ -1,0 +1,211 @@
+/* File: styles/species-generator.css */
+.species-generator-form {
+  padding: 10px;
+}
+
+.species-generator-form .form-group {
+  margin-bottom: 15px;
+}
+
+.species-generator-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--color-text-dark-primary);
+}
+
+.species-generator-form select,
+.species-generator-form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--color-border-light-tertiary);
+  border-radius: 3px;
+  background: var(--color-bg-light);
+  color: var(--color-text-dark-primary);
+}
+
+.species-display {
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.species-header {
+  border-bottom: 2px solid var(--color-border-light-tertiary);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.species-header h2 {
+  margin: 0 0 10px 0;
+  color: var(--color-text-dark-primary);
+  font-size: 1.5em;
+}
+
+.species-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.species-tags .tag {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.tag.archetype {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.tag.culture {
+  background-color: #7ed321;
+  color: white;
+}
+
+.tag.status {
+  background-color: #f5a623;
+  color: white;
+}
+
+.species-content {
+  display: grid;
+  gap: 20px;
+}
+
+.species-content > div {
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border-light-tertiary);
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.species-content h3 {
+  margin: 0 0 10px 0;
+  color: var(--color-text-dark-primary);
+  border-bottom: 1px solid var(--color-border-light-tertiary);
+  padding-bottom: 5px;
+}
+
+.quick-reference {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+}
+
+.quick-reference h3 {
+  color: white;
+  border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.swade-mechanics details summary {
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--color-text-dark-secondary);
+}
+
+.swade-mechanics details[open] summary {
+  margin-bottom: 15px;
+}
+
+.mechanic-details h4 {
+  margin: 15px 0 8px 0;
+  color: var(--color-text-dark-primary);
+  font-size: 1.1em;
+}
+
+.mechanic-details ul {
+  margin: 5px 0 15px 20px;
+}
+
+.mechanic-details li {
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+
+.physical-description ul,
+.narrative-hook ul {
+  margin: 10px 0 0 20px;
+}
+
+.physical-description li,
+.narrative-hook li {
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.roleplay-notes p {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Scene control button styling */
+.scene-control[data-control="species-generator"] .control-tool i {
+  color: #7ed321;
+}
+
+.scene-control[data-control="species-generator"] .control-tool.active i {
+  color: #ffffff;
+  text-shadow: 0 0 8px #7ed321;
+}
+
+/* Loading animation for generation */
+.species-generating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  font-size: 1.1em;
+  color: var(--color-text-dark-secondary);
+}
+
+.species-generating::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-border-light-tertiary);
+  border-top: 2px solid var(--color-text-dark-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .species-tags {
+    justify-content: center;
+  }
+  
+  .species-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Print styles for exported journal entries */
+@media print {
+  .species-display {
+    max-height: none;
+    overflow: visible;
+  }
+  
+  .species-tags .tag {
+    border: 1px solid #333;
+    background: white !important;
+    color: #333 !important;
+  }
+  
+  .quick-reference {
+    background: white !important;
+    color: #333 !important;
+    border: 1px solid #333 !important;
+  }
+}

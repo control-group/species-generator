@@ -48,19 +48,25 @@ export class SpeciesGenerator {
     
     try {
       // Phase 1: Context Analysis (target: 200ms)
+      console.log(`${MODULE_NAME} | PHASE 1: Starting context analysis...`);
       const contextStart = performance.now();
       const context = await this.contextEngine.analyzeContext(seed);
       const contextTime = performance.now() - contextStart;
+      console.log(`${MODULE_NAME} | PHASE 1: Context analysis complete`);
       
       // Phase 2: Core Generation (target: 800ms)
+      console.log(`${MODULE_NAME} | PHASE 2: Starting core generation...`);
       const coreStart = performance.now();
       const coreProfile = await this.generateCoreProfile(context);
       const coreTime = performance.now() - coreStart;
+      console.log(`${MODULE_NAME} | PHASE 2: Core generation complete:`, coreProfile);
       
       // Phase 3: Detail Synthesis (target: 1000ms)
+      console.log(`${MODULE_NAME} | PHASE 3: Starting detail synthesis...`);
       const detailStart = performance.now();
       const detailedSpecies = await this.synthesizeDetails(coreProfile, context);
       const detailTime = performance.now() - detailStart;
+      console.log(`${MODULE_NAME} | PHASE 3: Detail synthesis complete`);
       
       const totalTime = performance.now() - startTime;
       
@@ -79,6 +85,7 @@ export class SpeciesGenerator {
         timestamp: new Date().toISOString()
       };
       
+      console.log(`${MODULE_NAME} | FINAL SPECIES:`, detailedSpecies);
       return detailedSpecies;
       
     } catch (error) {
@@ -98,8 +105,7 @@ export class SpeciesGenerator {
     profile.archetype = biologyResult.key;
     profile.biologicalData = biologyResult;
     
-    // Primary traits based on archetype - use direct access, not rollWeighted
-    profile.primaryTraits = await this.generatePhysicalTraits({ archetype: profile.archetype });
+    // Note: Physical traits will be generated in synthesizeDetails phase
     
     // Cultural framework - influenced by narrative role
     const cultureResult = await this.rollTableManager.rollWeighted('culture', context.cultureWeights);
@@ -127,13 +133,13 @@ export class SpeciesGenerator {
     species.physicalTraits = await this.generatePhysicalTraits(coreProfile);
     
     // Cultural details
-    species.culturalTraits = await this.generateCulturalTraits(coreProfile);
+    species.culturalTraits = await this.generateCulturalTraitsBasic(coreProfile);
     
     // Narrative hook - this is crucial for quick integration
-    species.narrativeHook = await this.generateNarrativeHook(coreProfile, context);
+    species.narrativeHook = await this.generateNarrativeHookBasic(coreProfile, context);
     
     // SWADE mechanical suggestions
-    species.swadeTraits = await this.generateSWADETraits(coreProfile);
+    species.swadeTraits = await this.generateSWADETraitsBasic(coreProfile);
     
     // Quick reference summary for GM
     species.quickRef = this.generateQuickReference(species);
@@ -198,9 +204,9 @@ export class SpeciesGenerator {
   }
 
   /**
-   * Generate cultural traits (basic implementation - will be enhanced)
+   * Generate cultural traits (renamed basic method)
    */
-  async generateCulturalTraits(coreProfile) {
+  async generateCulturalTraitsBasic(coreProfile) {
     const cultureData = coreProfile.culturalData;
     if (!cultureData) {
       return { interaction_style: "Unknown cultural patterns" };
@@ -215,9 +221,9 @@ export class SpeciesGenerator {
   }
 
   /**
-   * Generate narrative hooks (basic implementation - will be enhanced)
+   * Generate narrative hooks (renamed basic method)
    */
-  async generateNarrativeHook(coreProfile, context) {
+  async generateNarrativeHookBasic(coreProfile, context) {
     const hooksTable = await this.rollTableManager.getTable('hooks');
     if (!hooksTable) {
       return {
@@ -251,9 +257,9 @@ export class SpeciesGenerator {
   }
 
   /**
-   * Generate SWADE traits (basic implementation - will be enhanced)
+   * Generate SWADE traits (renamed basic method)
    */
-  async generateSWADETraits(coreProfile) {
+  async generateSWADETraitsBasic(coreProfile) {
     // Basic SWADE traits based on archetype
     const traits = {
       racialAbilities: [],
@@ -275,6 +281,8 @@ export class SpeciesGenerator {
         break;
       case SPECIES_ARCHETYPES.REPTILIAN:
         traits.racialAbilities.push("Armor +2 (Natural scales)");
+        traits.racialAbilities.push("Infrared Vision (Halve penalties for bad lighting vs. heat sources)");
+        traits.hindrances.push("Cold Blooded (-2 to resist cold, sluggish in cold environments)");
         traits.attributes.vigor = "+1";
         break;
       default:

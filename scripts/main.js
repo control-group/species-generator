@@ -3,7 +3,6 @@ import { MODULE_NAME, MODULE_TITLE } from './config.js';
 import { SpeciesGenerator } from './core/species-generator.js';
 import { SpeciesGeneratorDialog } from './ui/species-dialog.js';
 import { SpeciesDisplayDialog } from './ui/species-display.js';
-import { EnhancedGeneration } from './core/enhanced-generation.js';
 
 /**
  * Smart Species Generator Module
@@ -168,11 +167,18 @@ class SmartSpeciesGeneratorModule {
    * Enhance the generator with additional methods
    */
   static enhanceGenerator() {
-    // Add enhanced generation methods
-    this.generator.generatePhysicalTraits = EnhancedGeneration.generatePhysicalTraits;
-    this.generator.generateCulturalTraits = EnhancedGeneration.generateCulturalTraits;
-    this.generator.generateNarrativeHook = EnhancedGeneration.generateNarrativeHook;
-    this.generator.generateSWADETraits = EnhancedGeneration.generateSWADETraits;
+    console.log(`${MODULE_NAME} | Enhancing generator with additional methods...`);
+    
+    // For now, just log that we're using basic methods
+    // The enhanced methods will be added in a future update
+    console.log(`${MODULE_NAME} | Using basic generation methods (enhanced methods not yet implemented)`);
+    
+    console.log(`${MODULE_NAME} | Generator enhanced. Available basic methods:`, {
+      generatePhysicalTraitsBasic: typeof this.generator.generatePhysicalTraitsBasic,
+      generateCulturalTraitsBasic: typeof this.generator.generateCulturalTraitsBasic,
+      generateNarrativeHookBasic: typeof this.generator.generateNarrativeHookBasic,
+      generateSWADETraitsBasic: typeof this.generator.generateSWADETraitsBasic
+    });
     
     // Add performance tracking
     const originalGenerate = this.generator.generateSpecies.bind(this.generator);
@@ -543,39 +549,3 @@ console.log("Species Generator | Hooks registered, module script complete");
 
 // Export for potential external use
 export { SmartSpeciesGeneratorModule };
-
-/*
-// File: PACKS.md - Documentation for creating compendium packs
-# Creating Compendium Packs for Species Generator
-
-The Species Generator can be enhanced with pre-built compendium packs containing:
-
-## 1. Example Species Pack
-- 20-30 pre-generated species for immediate use
-- Organized by archetype and cultural framework
-- Includes full SWADE stats and narrative hooks
-
-## 2. Extended Tables Pack
-- Additional biological archetypes (crystalline, gaseous, etc.)
-- More cultural frameworks (hive-mind collective, digital consciousness)
-- Extended naming patterns for different galactic regions
-- Specialized hooks for different campaign themes
-
-## 3. SWADE Traits Compendium
-- Custom edges and hindrances for alien species
-- Racial abilities with mechanical effects
-- Equipment suited for different species types
-
-## 4. Quick Reference Pack
-- GM reference sheets for rapid species creation
-- NPC stat blocks for common species roles
-- Quick encounter tables featuring generated species
-
-To create these packs:
-1. Use Foundry's built-in compendium tools
-2. Export generated species directly to compendiums
-3. Organize by theme or campaign setting
-4. Include proper tags and search metadata
-
-This allows GMs to have both procedural generation AND curated content for their campaigns.
-*/

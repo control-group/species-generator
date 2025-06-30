@@ -22,19 +22,38 @@ export class ExportManager {
    * Export species to a journal entry
    */
   static async exportToJournal(species) {
-    const journalContent = this.generateJournalHTML(species);
+    console.log(`${MODULE_NAME} | Starting journal export for species:`, species);
     
     try {
-      const journalEntry = await JournalEntry.create({
+      const journalContent = this.generateJournalHTML(species);
+      console.log(`${MODULE_NAME} | Generated journal content:`, journalContent);
+      
+      const folderId = await this.getOrCreateSpeciesFolder();
+      console.log(`${MODULE_NAME} | Using folder ID:`, folderId);
+      
+      // Foundry v12 uses pages instead of direct content
+      const journalData = {
         name: `Species: ${species.name}`,
-        content: journalContent,
-        folder: await this.getOrCreateSpeciesFolder()
-      });
+        pages: [{
+          name: "Species Profile", // Generic name to avoid duplication
+          type: "text",
+          text: {
+            content: journalContent,
+            format: 1 // HTML format
+          }
+        }],
+        folder: folderId
+      };
+      console.log(`${MODULE_NAME} | Creating journal entry with v12 format:`, journalData);
+      
+      const journalEntry = await JournalEntry.create(journalData);
+      console.log(`${MODULE_NAME} | Created journal entry:`, journalEntry);
       
       ui.notifications.info(`Species "${species.name}" exported to journal`);
       return journalEntry;
     } catch (error) {
       console.error(`${MODULE_NAME} | Failed to export to journal:`, error);
+      console.error(`${MODULE_NAME} | Error stack:`, error.stack);
       ui.notifications.error("Failed to export species to journal");
       throw error;
     }
@@ -44,15 +63,17 @@ export class ExportManager {
    * Generate HTML content for journal entry
    */
   static generateJournalHTML(species) {
-    return `
+    console.log(`${MODULE_NAME} | Generating journal HTML for species:`, species);
+    
+    const html = `
       <h1>${species.name}</h1>
       
       <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
         <h2>Quick Reference</h2>
-        <p><strong>Type:</strong> ${species.quickRef.elevator_pitch}</p>
-        <p><strong>Key Traits:</strong> ${species.quickRef.key_traits.join(', ')}</p>
-        <p><strong>Story Hook:</strong> ${species.quickRef.story_hook}</p>
-        <p><strong>SWADE Notes:</strong> ${species.quickRef.swade_notes}</p>
+        <p><strong>Type:</strong> ${species.quickRef?.elevator_pitch || 'Unknown'}</p>
+        <p><strong>Key Traits:</strong> ${species.quickRef?.key_traits?.join(', ') || 'None listed'}</p>
+        <p><strong>Story Hook:</strong> ${species.quickRef?.story_hook || 'No hook available'}</p>
+        <p><strong>SWADE Notes:</strong> ${species.quickRef?.swade_notes || 'No mechanical notes'}</p>
       </div>
       
       <h2>Physical Characteristics</h2>
@@ -75,6 +96,11 @@ export class ExportManager {
       <p><strong>Generation Time:</strong> ${species._metadata?.generationTime?.toFixed(1) || 'Unknown'}ms</p>
       <p><strong>Generated:</strong> ${species._metadata?.timestamp || 'Unknown'}</p>
     `;
+    
+    console.log(`${MODULE_NAME} | Generated HTML length:`, html.length);
+    console.log(`${MODULE_NAME} | HTML preview:`, html.substring(0, 200) + '...');
+    
+    return html;
   }
 
   /**

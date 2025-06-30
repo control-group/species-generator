@@ -103,8 +103,14 @@ export class RollTableManager {
    */
   async rollWeighted(tableName, weights = {}) {
     const table = this.tables.get(tableName);
+    
+    console.log(`${MODULE_NAME} | Rolling on table "${tableName}":`, table);
+    
     if (!table || !table.entries) {
-      console.warn(`${MODULE_NAME} | Table ${tableName} not found or invalid`);
+      console.warn(`${MODULE_NAME} | Table ${tableName} not found or invalid - Expected structure with 'entries' array`);
+      if (table) {
+        console.warn(`${MODULE_NAME} | Table structure:`, Object.keys(table));
+      }
       return { key: 'unknown', name: 'Unknown', weight: 1 };
     }
 

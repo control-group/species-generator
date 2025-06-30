@@ -98,8 +98,8 @@ export class SpeciesGenerator {
     profile.archetype = biologyResult.key;
     profile.biologicalData = biologyResult;
     
-    // Primary traits based on archetype
-    profile.primaryTraits = await this.rollTableManager.rollMultiple('traits', 2, { archetype: profile.archetype });
+    // Primary traits based on archetype - use direct access, not rollWeighted
+    profile.primaryTraits = await this.generatePhysicalTraits({ archetype: profile.archetype });
     
     // Cultural framework - influenced by narrative role
     const cultureResult = await this.rollTableManager.rollWeighted('culture', context.cultureWeights);
@@ -164,11 +164,25 @@ export class SpeciesGenerator {
    */
   async generatePhysicalTraits(coreProfile) {
     const traitsTable = await this.rollTableManager.getTable('traits');
-    if (!traitsTable || !traitsTable[coreProfile.archetype]) {
+    
+    console.log(`${MODULE_NAME} | Traits table:`, traitsTable);
+    console.log(`${MODULE_NAME} | Looking for archetype:`, coreProfile.archetype);
+    
+    if (!traitsTable) {
+      console.warn(`${MODULE_NAME} | Traits table not found, using fallback`);
       return [`Standard ${coreProfile.archetype} appearance`];
     }
     
+    // Check if traits table has the expected structure
     const traitList = traitsTable[coreProfile.archetype];
+    
+    if (!traitList || !Array.isArray(traitList)) {
+      console.warn(`${MODULE_NAME} | No traits found for archetype ${coreProfile.archetype}, available:`, Object.keys(traitsTable));
+      return [`Standard ${coreProfile.archetype} appearance`];
+    }
+    
+    console.log(`${MODULE_NAME} | Found ${traitList.length} traits for ${coreProfile.archetype}`);
+    
     const numTraits = 2 + Math.floor(Math.random() * 3); // 2-4 traits
     const selectedTraits = [];
     
@@ -179,6 +193,7 @@ export class SpeciesGenerator {
       }
     }
     
+    console.log(`${MODULE_NAME} | Selected traits:`, selectedTraits);
     return selectedTraits;
   }
 

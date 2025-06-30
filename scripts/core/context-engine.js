@@ -103,10 +103,12 @@ export class ContextEngine {
     
     if (!scene) return environment;
     
-    // Simple heuristics based on scene name/notes
-    const sceneName = (scene.name || '').toLowerCase();
-    const sceneNotes = (scene.notes || '').toLowerCase();
+    // Safely extract strings from scene data with type checking
+    const sceneName = this.safeStringify(scene.name);
+    const sceneNotes = this.safeStringify(scene.notes);
     const combinedText = `${sceneName} ${sceneNotes}`;
+    
+    console.log(`${MODULE_NAME} | Scene analysis - Name: "${sceneName}", Notes: "${sceneNotes}"`);
     
     // Determine environment type
     if (this.matchesKeywords(combinedText, ['space', 'void', 'vacuum', 'orbit'])) {
@@ -124,6 +126,28 @@ export class ContextEngine {
     }
     
     return environment;
+  }
+
+  /**
+   * Safely convert any value to a lowercase string
+   */
+  safeStringify(value) {
+    if (value === null || value === undefined) {
+      return '';
+    }
+    
+    // If it's already a string, use it
+    if (typeof value === 'string') {
+      return value.toLowerCase();
+    }
+    
+    // If it's an object with a toString method, use that
+    if (typeof value === 'object' && value.toString) {
+      return value.toString().toLowerCase();
+    }
+    
+    // For numbers, booleans, etc., convert to string
+    return String(value).toLowerCase();
   }
 
   /**

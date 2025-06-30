@@ -72,6 +72,19 @@ class SmartSpeciesGeneratorModule {
     // Add UI controls
     this.setupUI();
     
+    // Force refresh scene controls after a small delay using the correct method
+    setTimeout(() => {
+      if (ui.controls.rendered && game.user.isGM) {
+        console.log(`${MODULE_NAME} | Attempting to refresh scene controls...`);
+        try {
+          // The correct way to refresh scene controls in Foundry
+          ui.controls.initialize();
+        } catch (error) {
+          console.warn(`${MODULE_NAME} | Could not refresh scene controls:`, error);
+        }
+      }
+    }, 200);
+    
     // Hook into chat commands if enabled
     if (game.settings.get(MODULE_NAME, 'enableChatCommands')) {
       this.setupChatCommands();
@@ -208,50 +221,78 @@ class SmartSpeciesGeneratorModule {
     // Add scene control button
     Hooks.on('getSceneControlButtons', (controls) => {
       console.log(`${MODULE_NAME} | getSceneControlButtons hook fired, user isGM:`, game.user.isGM);
-      if (!game.user.isGM) return; // Only show to GMs
+      console.log(`${MODULE_NAME} | Current controls before adding:`, controls.map(c => c.name));
       
-      console.log(`${MODULE_NAME} | Adding scene controls`);
-      controls.push({
+      if (!game.user.isGM) {
+        console.log(`${MODULE_NAME} | User is not GM, skipping scene controls`);
+        return; // Only show to GMs
+      }
+      
+      console.log(`${MODULE_NAME} | Adding species generator scene controls`);
+      
+      const speciesControl = {
         name: 'species-generator',
         title: MODULE_TITLE,
         icon: 'fas fa-user-alien',
-        layer: 'tokens',
+        layer: null, // No canvas layer - this is a utility control
         tools: [
           {
             name: 'generate-species',
             title: 'Generate New Species',
             icon: 'fas fa-dice',
-            onClick: () => this.quickGenerate(),
+            onClick: () => {
+              console.log(`${MODULE_NAME} | Quick generate tool clicked!`);
+              SmartSpeciesGeneratorModule.quickGenerate();
+            },
             button: true
           },
           {
             name: 'generate-species-detailed',
             title: 'Generate Species (Detailed)',
             icon: 'fas fa-cogs',
-            onClick: () => game.speciesGenerator.openDialog(),
+            onClick: () => {
+              console.log(`${MODULE_NAME} | Detailed generate tool clicked!`);
+              game.speciesGenerator.openDialog();
+            },
             button: true
           },
           {
             name: 'species-stats',
             title: 'Generation Statistics',
             icon: 'fas fa-chart-bar',
-            onClick: () => this.showStatistics(),
+            onClick: () => {
+              console.log(`${MODULE_NAME} | Statistics tool clicked!`);
+              SmartSpeciesGeneratorModule.showStatistics();
+            },
             button: true
           }
         ]
-      });
+      };
+      
+      controls.push(speciesControl);
+      console.log(`${MODULE_NAME} | Scene control added with ${speciesControl.tools.length} tools:`, speciesControl.tools.map(t => t.name));
+      console.log(`${MODULE_NAME} | Controls after adding:`, controls.map(c => c.name));
     });
 
     // Add to macro bar if enabled
     if (game.user.isGM) {
       this.createMacros();
     }
+    
+    console.log(`${MODULE_NAME} | UI setup complete`);
   }
 
   /**
    * Quick generation with default settings
    */
   static async quickGenerate() {
+    console.log(`${MODULE_NAME} | Quick generate called from scene controls`);
+    
+    if (!game.user.isGM) {
+      ui.notifications.warn("Only GMs can generate species");
+      return;
+    }
+    
     const defaultSpeed = game.settings.get(MODULE_NAME, 'generationSpeed');
     const defaultRole = game.settings.get(MODULE_NAME, 'defaultRole');
     
@@ -270,6 +311,56 @@ class SmartSpeciesGeneratorModule {
       ui.notifications.error("Failed to generate species");
       console.error(`${MODULE_NAME} | Generation error:`, error);
     }
+  }
+
+  /**
+   * Show generation statistics
+   */
+  static showStatistics() {
+    console.log(`${MODULE_NAME} | Show statistics called from scene controls`);
+    
+    const stats = game.settings.get(MODULE_NAME, 'generationStats');
+    
+    const content = `
+      <div class="species-stats">
+        <h2>Generation Statistics</h2>
+        <p><strong>Total Species Generated:</strong> ${stats.totalGenerated}</p>
+        <p><strong>Average Generation Time:</strong> ${(stats.averageTime / 1000).toFixed(2)} seconds</p>
+        
+        <h3>Favorite Archetypes</h3>
+        <ul>
+          ${Object.entries(stats.favoriteArchetypes)
+            .sort(([,a], [,b]) => b - a)
+            .map(([archetype, count]) => `<li>${archetype}: ${count} (${((count/stats.totalGenerated)*100).toFixed(1)}%)</li>`)
+            .join('')}
+        </ul>
+      </div>
+    `;
+
+    new Dialog({
+      title: "Species Generator Statistics",
+      content,
+      buttons: {
+        reset: {
+          icon: '<i class="fas fa-trash"></i>',
+          label: "Reset Stats",
+          callback: () => {
+            game.settings.set(MODULE_NAME, 'generationStats', {
+              totalGenerated: 0,
+              averageTime: 0,
+              favoriteArchetypes: {},
+              sessionCount: 0
+            });
+            ui.notifications.info("Statistics reset");
+          }
+        },
+        close: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Close"
+        }
+      },
+      default: "close"
+    }).render(true);
   }
 
   /**

@@ -218,61 +218,91 @@ class SmartSpeciesGeneratorModule {
   static setupUI() {
     console.log(`${MODULE_NAME} | Setting up UI controls`);
     
-    // Add scene control button
-    Hooks.on('getSceneControlButtons', (controls) => {
-      console.log(`${MODULE_NAME} | getSceneControlButtons hook fired, user isGM:`, game.user.isGM);
-      console.log(`${MODULE_NAME} | Current controls before adding:`, controls.map(c => c.name));
+    // Add CSS for our footer buttons
+    const style = $(`
+      <style>
+        .species-generator-footer {
+          flex: none !important;
+          flex-grow: 0 !important;
+          flex-shrink: 0 !important;
+          height: auto !important;
+          min-height: 32px !important;
+          max-height: 32px !important;
+        }
+        .species-generator-footer button {
+          padding: 2px 4px !important;
+          font-size: 10px !important;
+          flex: 1 !important;
+          margin: 0 !important;
+          border-radius: 3px !important;
+          cursor: pointer !important;
+          transition: all 0.1s ease !important;
+        }
+      </style>
+    `);
+    $('head').append(style);
+    
+    // Add species generator controls to the Journal tab footer
+    Hooks.on('renderJournalDirectory', (app, html, data) => {
+      if (!game.user.isGM) return;
       
-      if (!game.user.isGM) {
-        console.log(`${MODULE_NAME} | User is not GM, skipping scene controls`);
-        return; // Only show to GMs
-      }
+      console.log(`${MODULE_NAME} | Adding species generator controls to Journal tab`);
       
-      console.log(`${MODULE_NAME} | Adding species generator scene controls`);
+      // Remove any existing species generator footer to avoid duplicates
+      html.find('.species-generator-footer').remove();
       
-      const speciesControl = {
-        name: 'species-generator',
-        title: MODULE_TITLE,
-        icon: 'fas fa-user-alien',
-        layer: null, // No canvas layer - this is a utility control
-        tools: [
-          {
-            name: 'generate-species',
-            title: 'Generate New Species',
-            icon: 'fas fa-dice',
-            onClick: () => {
-              console.log(`${MODULE_NAME} | Quick generate tool clicked!`);
-              SmartSpeciesGeneratorModule.quickGenerate();
-            },
-            button: true
-          },
-          {
-            name: 'generate-species-detailed',
-            title: 'Generate Species (Detailed)',
-            icon: 'fas fa-cogs',
-            onClick: () => {
-              console.log(`${MODULE_NAME} | Detailed generate tool clicked!`);
-              game.speciesGenerator.openDialog();
-            },
-            button: true
-          },
-          {
-            name: 'species-stats',
-            title: 'Generation Statistics',
-            icon: 'fas fa-chart-bar',
-            onClick: () => {
-              console.log(`${MODULE_NAME} | Statistics tool clicked!`);
-              SmartSpeciesGeneratorModule.showStatistics();
-            },
-            button: true
-          }
-        ]
-      };
+      // Create the compact footer section
+      const footer = $(`
+        <footer class="species-generator-footer">
+          <div class="species-generator-controls" style="display: flex; gap: 2px; margin: 2px 0;">
+            <button type="button" class="species-quick-gen" title="Quick Generate Species">
+              <i class="fas fa-dice"></i> Quick
+            </button>
+            <button type="button" class="species-detailed-gen" title="Detailed Species Generation">
+              <i class="fas fa-cogs"></i> Detailed
+            </button>
+            <button type="button" class="species-stats" title="Generation Statistics">
+              <i class="fas fa-chart-bar"></i> Stats
+            </button>
+          </div>
+          <div style="text-align: center; font-size: 8px; color: var(--color-text-dark-secondary); line-height: 1; margin: 1px 0;">
+            Species Generator
+          </div>
+        </footer>
+      `);
       
-      controls.push(speciesControl);
-      console.log(`${MODULE_NAME} | Scene control added with ${speciesControl.tools.length} tools:`, speciesControl.tools.map(t => t.name));
-      console.log(`${MODULE_NAME} | Controls after adding:`, controls.map(c => c.name));
+      // Add click handlers
+      footer.find('.species-quick-gen').click((e) => {
+        e.preventDefault();
+        console.log(`${MODULE_NAME} | Quick generate clicked from journal footer`);
+        SmartSpeciesGeneratorModule.quickGenerate();
+      });
+      
+      footer.find('.species-detailed-gen').click((e) => {
+        e.preventDefault();
+        console.log(`${MODULE_NAME} | Detailed generate clicked from journal footer`);
+        game.speciesGenerator.openDialog();
+      });
+      
+      footer.find('.species-stats').click((e) => {
+        e.preventDefault();
+        console.log(`${MODULE_NAME} | Statistics clicked from journal footer`);
+        SmartSpeciesGeneratorModule.showStatistics();
+      });
+      
+      // Add the footer to the journal directory
+      html.append(footer);
+      
+      console.log(`${MODULE_NAME} | Species generator controls added to journal footer`);
     });
+
+    // Force the journal directory to render if it's already open
+    setTimeout(() => {
+      if (ui.sidebar.tabs.journal?.rendered) {
+        console.log(`${MODULE_NAME} | Forcing journal directory refresh to show controls`);
+        ui.sidebar.tabs.journal.render();
+      }
+    }, 500);
 
     // Add to macro bar if enabled
     if (game.user.isGM) {

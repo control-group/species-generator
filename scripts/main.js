@@ -17,31 +17,51 @@ class SmartSpeciesGeneratorModule {
    * Initialize the module
    */
   static init() {
+    console.log(`${MODULE_NAME} | INIT METHOD CALLED - Starting initialization`);
+    console.log(`${MODULE_NAME} | MODULE_NAME value:`, MODULE_NAME);
     console.log(`${MODULE_NAME} | Initializing ${MODULE_TITLE}`);
     
-    // Register module settings
-    this.registerSettings();
-    
-    // Initialize the generator
-    this.generator = new SpeciesGenerator();
-    
-    // Enhance the generator with additional methods
-    this.enhanceGenerator();
-    
-    // Add to global game object for external access
-    game.speciesGenerator = {
-      generate: (seed) => this.generator.generateSpecies(seed),
-      openDialog: () => new SpeciesGeneratorDialog(this.generator).render(true),
-      version: game.modules.get(MODULE_NAME).version,
-      settings: {
-        getGenerationSpeed: () => game.settings.get(MODULE_NAME, 'generationSpeed'),
-        getDefaultRole: () => game.settings.get(MODULE_NAME, 'defaultRole'),
-        getAutoExport: () => game.settings.get(MODULE_NAME, 'autoExportToJournal')
-      }
-    };
-    
-    this.isInitialized = true;
-    console.log(`${MODULE_NAME} | Initialization complete`);
+    try {
+      // Register module settings
+      console.log(`${MODULE_NAME} | Registering settings...`);
+      this.registerSettings();
+      console.log(`${MODULE_NAME} | Settings registered successfully`);
+      
+      // Register keybindings (MUST be done during init)
+      console.log(`${MODULE_NAME} | Registering keybindings...`);
+      this.registerKeybindings();
+      console.log(`${MODULE_NAME} | Keybindings registered successfully`);
+      
+      // Initialize the generator
+      console.log(`${MODULE_NAME} | Creating generator instance...`);
+      this.generator = new SpeciesGenerator();
+      console.log(`${MODULE_NAME} | Generator created successfully`);
+      
+      // Enhance the generator with additional methods
+      console.log(`${MODULE_NAME} | Enhancing generator...`);
+      this.enhanceGenerator();
+      console.log(`${MODULE_NAME} | Generator enhanced successfully`);
+      
+      // Add to global game object for external access
+      console.log(`${MODULE_NAME} | Creating global game object...`);
+      game.speciesGenerator = {
+        generate: (seed) => this.generator.generateSpecies(seed),
+        openDialog: () => new SpeciesGeneratorDialog(this.generator).render(true),
+        version: game.modules.get(MODULE_NAME)?.version || "1.0.0",
+        settings: {
+          getGenerationSpeed: () => game.settings.get(MODULE_NAME, 'generationSpeed'),
+          getDefaultRole: () => game.settings.get(MODULE_NAME, 'defaultRole'),
+          getAutoExport: () => game.settings.get(MODULE_NAME, 'autoExportToJournal')
+        }
+      };
+      console.log(`${MODULE_NAME} | Global object created:`, game.speciesGenerator);
+      
+      this.isInitialized = true;
+      console.log(`${MODULE_NAME} | Initialization complete - SUCCESS`);
+    } catch (error) {
+      console.error(`${MODULE_NAME} | INITIALIZATION FAILED:`, error);
+      console.error(`${MODULE_NAME} | Error stack:`, error.stack);
+    }
   }
 
   /**
@@ -52,9 +72,6 @@ class SmartSpeciesGeneratorModule {
     
     // Add UI controls
     this.setupUI();
-    
-    // Register keybindings
-    this.registerKeybindings();
     
     // Hook into chat commands if enabled
     if (game.settings.get(MODULE_NAME, 'enableChatCommands')) {
@@ -180,10 +197,14 @@ class SmartSpeciesGeneratorModule {
    * Set up user interface controls
    */
   static setupUI() {
+    console.log(`${MODULE_NAME} | Setting up UI controls`);
+    
     // Add scene control button
     Hooks.on('getSceneControlButtons', (controls) => {
+      console.log(`${MODULE_NAME} | getSceneControlButtons hook fired, user isGM:`, game.user.isGM);
       if (!game.user.isGM) return; // Only show to GMs
       
+      console.log(`${MODULE_NAME} | Adding scene controls`);
       controls.push({
         name: 'species-generator',
         title: MODULE_TITLE,
@@ -249,6 +270,8 @@ class SmartSpeciesGeneratorModule {
    * Register keyboard shortcuts
    */
   static registerKeybindings() {
+    console.log(`${MODULE_NAME} | Registering keybindings`);
+    
     game.keybindings.register(MODULE_NAME, 'quickGenerate', {
       name: "Quick Generate Species",
       hint: "Generate a species with default settings",
@@ -259,8 +282,11 @@ class SmartSpeciesGeneratorModule {
         }
       ],
       onDown: () => {
+        console.log(`${MODULE_NAME} | Quick generate keybinding triggered`);
         if (game.user.isGM) {
           this.quickGenerate();
+        } else {
+          ui.notifications.warn("Only GMs can generate species");
         }
       }
     });
@@ -275,23 +301,32 @@ class SmartSpeciesGeneratorModule {
         }
       ],
       onDown: () => {
+        console.log(`${MODULE_NAME} | Open dialog keybinding triggered`);
         if (game.user.isGM) {
           game.speciesGenerator.openDialog();
+        } else {
+          ui.notifications.warn("Only GMs can generate species");
         }
       }
     });
+    
+    console.log(`${MODULE_NAME} | Keybindings registered successfully`);
   }
 
   /**
    * Set up chat commands
    */
   static setupChatCommands() {
+    console.log(`${MODULE_NAME} | Setting up chat commands`);
+    
     Hooks.on('chatMessage', (chatLog, messageText, chatData) => {
+      console.log(`${MODULE_NAME} | Chat message intercepted:`, messageText);
       if (!game.user.isGM) return true;
       
       const command = messageText.toLowerCase().trim();
       
       if (command.startsWith('/species')) {
+        console.log(`${MODULE_NAME} | Species command detected:`, command);
         const args = command.split(' ').slice(1);
         this.handleChatCommand(args);
         return false; // Prevent normal chat message
@@ -299,6 +334,8 @@ class SmartSpeciesGeneratorModule {
       
       return true;
     });
+    
+    console.log(`${MODULE_NAME} | Chat commands registered`);
   }
 
   /**
@@ -490,8 +527,55 @@ class SmartSpeciesGeneratorModule {
 }
 
 // Module initialization hooks
-Hooks.once('init', SmartSpeciesGeneratorModule.init.bind(SmartSpeciesGeneratorModule));
-Hooks.once('ready', SmartSpeciesGeneratorModule.ready.bind(SmartSpeciesGeneratorModule));
+console.log("Species Generator | Registering init hook...");
+Hooks.once('init', () => {
+  console.log("Species Generator | Init hook fired!");
+  SmartSpeciesGeneratorModule.init();
+});
+
+console.log("Species Generator | Registering ready hook...");
+Hooks.once('ready', () => {
+  console.log("Species Generator | Ready hook fired!");
+  SmartSpeciesGeneratorModule.ready();
+});
+
+console.log("Species Generator | Hooks registered, module script complete");
 
 // Export for potential external use
 export { SmartSpeciesGeneratorModule };
+
+/*
+// File: PACKS.md - Documentation for creating compendium packs
+# Creating Compendium Packs for Species Generator
+
+The Species Generator can be enhanced with pre-built compendium packs containing:
+
+## 1. Example Species Pack
+- 20-30 pre-generated species for immediate use
+- Organized by archetype and cultural framework
+- Includes full SWADE stats and narrative hooks
+
+## 2. Extended Tables Pack
+- Additional biological archetypes (crystalline, gaseous, etc.)
+- More cultural frameworks (hive-mind collective, digital consciousness)
+- Extended naming patterns for different galactic regions
+- Specialized hooks for different campaign themes
+
+## 3. SWADE Traits Compendium
+- Custom edges and hindrances for alien species
+- Racial abilities with mechanical effects
+- Equipment suited for different species types
+
+## 4. Quick Reference Pack
+- GM reference sheets for rapid species creation
+- NPC stat blocks for common species roles
+- Quick encounter tables featuring generated species
+
+To create these packs:
+1. Use Foundry's built-in compendium tools
+2. Export generated species directly to compendiums
+3. Organize by theme or campaign setting
+4. Include proper tags and search metadata
+
+This allows GMs to have both procedural generation AND curated content for their campaigns.
+*/
